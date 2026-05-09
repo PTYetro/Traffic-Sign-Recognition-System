@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>基于YOLOv8的交通标志识别系统｜官方网站</title>
+  <meta name="description" content="基于YOLOv8的交通标志识别系统官方网站，展示项目介绍、核心优势、设计理念、实时推理、图片推理、训练优化与交互设计成果。" />
+  <meta name="keywords" content="YOLOv8, 交通标志识别, 毕业设计, 实时推理, 图片推理, Electron, Vue, 人工智能" />
+  <style>
+    :root{
+      --bg:#07111f;--bg2:#0b1730;--card:rgba(16,27,52,.55);--card-strong:rgba(18,31,60,.84);
+      --line:rgba(138,187,255,.15);--text:#e9f2ff;--muted:#9fb3d9;--primary:#53b7ff;
+      --secondary:#7d7cff;--accent:#31ffd0;--shadow:0 20px 80px rgba(0,0,0,.35);--radius:24px;--max:1560px;
+    }
+    *{box-sizing:border-box} html{scroll-behavior:smooth}
+    body{margin:0;font-family:"Microsoft YaHei","PingFang SC","Segoe UI",Arial,sans-serif;color:var(--text);
+      background:
+        radial-gradient(circle at 20% 15%, rgba(83,183,255,.15), transparent 28%),
+        radial-gradient(circle at 80% 0%, rgba(125,124,255,.16), transparent 28%),
+        radial-gradient(circle at 70% 80%, rgba(49,255,208,.10), transparent 22%),
+        linear-gradient(180deg, #050c17 0%, #07111f 30%, #081528 100%);
+      overflow-x:hidden;}
+    body::before{content:"";position:fixed;inset:0;pointer-events:none;
+      background-image:linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+      background-size:32px 32px;mask-image:linear-gradient(to bottom, rgba(0,0,0,.55), transparent 85%);z-index:-1;}
+    a{color:inherit;text-decoration:none} img{max-width:100%;display:block}
+    .container{width:min(var(--max), calc(100% - 40px));margin:0 auto}
+    .section{padding:88px 0}
+    .section-title{font-size:clamp(28px, 4vw, 46px);line-height:1.15;margin:0 0 14px;letter-spacing:.5px;}
+    .section-subtitle{color:var(--muted);font-size:16px;line-height:1.9;max-width:860px;margin:0;}
+    .badge{display:inline-flex;align-items:center;gap:10px;padding:10px 18px;border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.04);border-radius:999px;font-size:13px;color:#d8ebff;backdrop-filter:blur(12px);
+      box-shadow:inset 0 0 0 1px rgba(255,255,255,.03);}
+    .badge::before{content:"";width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg, var(--accent), var(--primary));box-shadow:0 0 16px rgba(49,255,208,.8);}
+    .nav-wrap{position:sticky; top:0; z-index:60;backdrop-filter:blur(16px);background:rgba(6,13,25,.58);border-bottom:1px solid rgba(255,255,255,.06);}
+    .nav{height:78px;display:flex;align-items:center;justify-content:space-between;gap:20px;}
+    .brand{display:flex;align-items:center;gap:14px;font-weight:700;letter-spacing:.4px;}
+    .brand-mark{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg, rgba(83,183,255,.95), rgba(125,124,255,.95));box-shadow:0 0 0 1px rgba(255,255,255,.12) inset,0 10px 30px rgba(83,183,255,.35);position:relative;overflow:hidden;}
+    .brand-mark::before,.brand-mark::after{content:"";position:absolute;border-radius:999px;background:rgba(255,255,255,.95);filter:drop-shadow(0 0 12px rgba(255,255,255,.35));}
+    .brand-mark::before{width:20px;height:4px;left:11px;top:12px;transform:rotate(38deg)}
+    .brand-mark::after{width:22px;height:4px;left:10px;top:22px;transform:rotate(-38deg)}
+    .brand-text small{display:block;color:var(--muted);font-size:12px;font-weight:400;margin-top:2px;}
+    .nav-links{display:flex;align-items:center;gap:26px;color:#d9e8ff;font-size:15px;}
+    .nav-links a{position:relative}.nav-links a::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:2px;background:linear-gradient(90deg, var(--primary), var(--accent));transition:.3s ease;}
+    .nav-links a:hover::after{width:100%}
+    .nav-cta{display:flex;align-items:center;gap:12px;}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:13px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.12);cursor:pointer;transition:.28s ease;font-weight:600;white-space:nowrap;}
+    .btn-primary{color:#06111e;background:linear-gradient(135deg, var(--accent), #7bf8ff 60%, var(--primary));box-shadow:0 0 0 1px rgba(255,255,255,.15) inset, 0 16px 40px rgba(49,255,208,.20);}
+    .btn-primary:hover{transform:translateY(-2px); box-shadow:0 20px 45px rgba(49,255,208,.28)}
+    .btn-ghost{background:rgba(255,255,255,.04);color:#dfefff}.btn-ghost:hover{transform:translateY(-2px); background:rgba(255,255,255,.08)}
+    .hero{position:relative;padding:72px 0 38px;overflow:hidden;}
+    .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:28px;align-items:center;}
+    .hero h1{font-size:clamp(38px,5.5vw,76px);line-height:1.03;margin:18px 0 20px;letter-spacing:.4px;}
+    .hero .lead{font-size:18px;line-height:1.9;color:#c9dcff;max-width:760px;margin:0 0 28px;}
+    .gradient-text{background:linear-gradient(90deg, #fff 0%, #9fd8ff 35%, #97b0ff 65%, #79ffe1 100%);-webkit-background-clip:text;background-clip:text;color:transparent;}
+    .hero-actions{display:flex;gap:14px;flex-wrap:wrap}
+    .hero-metrics{margin-top:28px;display:grid;grid-template-columns:repeat(3, minmax(0,1fr));gap:14px;max-width:700px;}
+    .metric{padding:18px 18px 16px;background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.09);border-radius:20px;backdrop-filter:blur(14px);box-shadow:var(--shadow);}
+    .metric strong{display:block;font-size:28px;margin-bottom:6px;background:linear-gradient(90deg, #fff, #9fd8ff);-webkit-background-clip:text;background-clip:text;color:transparent;}
+    .metric span{color:var(--muted);font-size:14px;line-height:1.7}
+    .carousel-shell{position:relative;padding:16px;border-radius:32px;background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.08);box-shadow:var(--shadow);overflow:hidden;}
+    .carousel{position:relative;height:560px;border-radius:24px;overflow:hidden;background:linear-gradient(180deg, rgba(13,27,50,.95), rgba(8,17,30,.92));}
+    .slide{position:absolute; inset:0;padding:36px;opacity:0;transform:scale(1.02);transition:opacity .6s ease, transform .6s ease;display:flex; flex-direction:column; justify-content:flex-end;overflow:hidden;}
+    .slide.active{opacity:1; transform:scale(1)}
+    .slide::before{content:"";position:absolute; inset:0;background:radial-gradient(circle at 78% 18%, rgba(83,183,255,.25), transparent 25%),radial-gradient(circle at 18% 22%, rgba(125,124,255,.28), transparent 25%),linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.01));z-index:0;}
+    .slide::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg, rgba(0,0,0,.06), transparent 35%),radial-gradient(circle at 50% 100%, rgba(49,255,208,.12), transparent 25%);z-index:0;}
+    .slide-content{position:relative;z-index:2}
+    .slide-tag{display:inline-flex;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#d4e9ff;font-size:13px;margin-bottom:16px;backdrop-filter:blur(8px);}
+    .slide h3{font-size:36px; line-height:1.2; margin:0 0 10px;max-width:520px;}
+    .slide p{margin:0; max-width:520px; color:#c7d8fb; line-height:1.9; font-size:16px;}
+    .ui-mock, .training-mock, .realtime-mock{position:absolute; right:28px; top:26px; width:56%; height:62%;border-radius:24px;background:linear-gradient(180deg, rgba(13,25,45,.95), rgba(9,18,35,.88));border:1px solid rgba(255,255,255,.08);box-shadow:0 24px 60px rgba(0,0,0,.32);overflow:hidden;z-index:1;}
+    .ui-mock::before, .training-mock::before, .realtime-mock::before{content:"";position:absolute;left:0;right:0;top:0;height:54px;background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02));border-bottom:1px solid rgba(255,255,255,.06);}
+    .mock-dots{position:absolute;left:18px;top:18px;display:flex;gap:8px;z-index:2}.mock-dots span{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.35)}
+    .ui-mock .panel-left{position:absolute;left:0;top:54px;bottom:0;width:28%;border-right:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.025);}
+    .ui-mock .panel-right{position:absolute;left:28%;right:0;top:54px;bottom:0;padding:16px;}
+    .glow-button{position:absolute; right:22px; top:16px;width:54px;height:54px;border-radius:16px;background:linear-gradient(135deg, rgba(49,255,208,.22), rgba(83,183,255,.25));border:1px solid rgba(255,255,255,.16);box-shadow:0 0 24px rgba(49,255,208,.30), inset 0 0 14px rgba(255,255,255,.06);}
+    .glow-button::before,.glow-button::after{content:""; position:absolute; left:14px; top:25px; width:26px; height:3px;background:#e8ffff; border-radius:99px;box-shadow:0 0 14px rgba(255,255,255,.55);}
+    .glow-button::before{transform:rotate(45deg)} .glow-button::after{transform:rotate(-45deg)}
+    .mini-card{height:90px;border-radius:18px;margin-bottom:12px;background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.06);}
+    .screen{position:absolute; left:18px; right:18px; bottom:18px; top:90px;border-radius:20px;background:linear-gradient(180deg, rgba(7,14,24,.65), rgba(10,20,35,.55)),radial-gradient(circle at 65% 35%, rgba(83,183,255,.16), transparent 30%);border:1px solid rgba(255,255,255,.06);overflow:hidden;}
+    .road{position:absolute; left:50%; transform:translateX(-50%);bottom:-40px;width:42%;height:120%;background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02));clip-path:polygon(42% 0, 58% 0, 100% 100%, 0 100%);opacity:.5;}
+    .sign-box{position:absolute; border:2px solid #7bf8ff; border-radius:10px;box-shadow:0 0 18px rgba(123,248,255,.35);}
+    .sign-box.one{left:22%; top:22%; width:18%; height:18%}.sign-box.two{right:18%; top:34%; width:16%; height:16%}
+    .label{position:absolute; top:-26px; left:0; padding:4px 10px;border-radius:999px; font-size:12px;background:rgba(10,25,42,.95);border:1px solid rgba(123,248,255,.4);color:#bff7ff;}
+    .training-mock .graph-area{position:absolute;left:18px;right:18px;top:80px;bottom:18px;border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,.06);background:linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px),linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));background-size:28px 28px,28px 28px,auto;}
+    .curve{position:absolute;left:4%;top:12%;width:92%;height:74%;}.curve svg{width:100%;height:100%}
+    .legend{position:absolute;right:20px;top:18px;display:grid;gap:8px;z-index:2}
+    .legend div{padding:8px 12px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.06);font-size:12px;color:#dbe8ff;}
+    .carousel-controls{position:absolute; left:24px; right:24px; bottom:22px;display:flex; align-items:center; justify-content:space-between; gap:16px;z-index:5;}
+    .dots{display:flex;gap:10px}
+    .dot{width:11px;height:11px;border-radius:999px;border:none;cursor:pointer;background:rgba(255,255,255,.28); transition:.25s ease;}
+    .dot.active{width:34px;background:linear-gradient(90deg, var(--primary), var(--accent))}
+    .arrow-group{display:flex;gap:10px}
+    .arrow{width:44px;height:44px;border-radius:14px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06); color:#fff; cursor:pointer; font-size:18px;transition:.25s ease;}
+    .arrow:hover{background:rgba(255,255,255,.10); transform:translateY(-2px)}
+    .grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;margin-top:34px}
+    .grid-4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin-top:34px}
+    .card{position:relative;background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.08);border-radius:26px;padding:26px;overflow:hidden;box-shadow:var(--shadow);min-height:100%;}
+    .card::before{content:"";position:absolute;inset:auto -10% 0 auto;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle, rgba(83,183,255,.11), transparent 65%);filter:blur(10px);}
+    .card h3{margin:0 0 10px;font-size:21px}.card p{margin:0;color:var(--muted);line-height:1.9;font-size:15px}
+    .card-icon{width:56px;height:56px;border-radius:18px;display:grid;place-items:center;margin-bottom:18px;background:linear-gradient(135deg, rgba(83,183,255,.18), rgba(125,124,255,.18));border:1px solid rgba(255,255,255,.10);box-shadow:0 10px 26px rgba(83,183,255,.14);font-size:24px;}
+    .timeline{margin-top:36px;display:grid;gap:18px;}
+    .timeline-item{display:grid;grid-template-columns:140px 1fr;gap:20px;align-items:start;padding:22px;border-radius:24px;background:linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.025));border:1px solid rgba(255,255,255,.07);box-shadow:var(--shadow);}
+    .timeline-time{padding:12px 16px;border-radius:16px;background:linear-gradient(135deg, rgba(83,183,255,.18), rgba(49,255,208,.10));border:1px solid rgba(255,255,255,.08);font-weight:700;color:#dff7ff;text-align:center;}
+    .timeline-content h4{margin:0 0 8px;font-size:20px}.timeline-content p{margin:0;color:var(--muted);line-height:1.95}
+    .arch{margin-top:36px;display:grid;grid-template-columns:1fr 90px 1fr 90px 1fr;gap:16px;align-items:center;}
+    .arch-card{padding:26px;border-radius:24px;background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.08);min-height:220px;box-shadow:var(--shadow);}
+    .arch-card h3{margin:0 0 12px;font-size:22px}.arch-card ul{margin:0;padding-left:18px;color:var(--muted);line-height:1.95}
+    .arch-arrow{height:2px; position:relative;background:linear-gradient(90deg, rgba(83,183,255,.15), rgba(49,255,208,.8));border-radius:999px;}
+    .arch-arrow::after{content:"";position:absolute;right:-2px;top:50%;transform:translateY(-50%);border-left:14px solid var(--accent);border-top:8px solid transparent;border-bottom:8px solid transparent;filter:drop-shadow(0 0 12px rgba(49,255,208,.45));}
+    .gallery{
+      margin-top:36px;
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0, 1fr));
+      gap:22px;
+      align-items:start;
+    }
+    .shot{
+      position:relative;
+      border-radius:28px;
+      overflow:hidden;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.025)),
+        radial-gradient(circle at 75% 20%, rgba(83,183,255,.14), transparent 20%);
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow:var(--shadow);
+      padding:24px;
+      display:flex;
+      flex-direction:column;
+    }
+    .shot.tall{
+      min-height:auto;
+    }
+    .shot h4{margin:0 0 8px;font-size:22px}.shot p{margin:0;color:var(--muted);line-height:1.85;font-size:15px;max-width:90%}
+    .shot-mark{position:absolute;right:18px;top:18px;padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.06);font-size:12px;border:1px solid rgba(255,255,255,.08)}
+    
+    .screen-placeholder{position:absolute; left:24px; right:24px; bottom:24px; top:116px;border-radius:22px;background:linear-gradient(180deg, rgba(5,10,18,.55), rgba(8,16,28,.55)),linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);background-size:auto, 24px 24px,24px 24px;border:1px dashed rgba(159,179,217,.35);display:grid;place-items:center;text-align:center;padding:22px;color:#d9ebff;font-size:15px;line-height:1.8;}
+    
+    .media-frame{
+      position:relative;
+      width:100%;
+      margin-top:18px;
+      border-radius:22px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(5,12,22,.65);
+      aspect-ratio:16 / 9;
+      min-height:280px;
+    }
+
+    .gif-shot .media-frame{
+      aspect-ratio:16 / 10;
+      min-height:360px;
+    }
+
+    .media-frame img{
+      width:100%;
+      height:100%;
+      display:block;
+      object-fit:contain;
+      object-position:center;
+      background:rgba(5,12,22,.85);
+    }
+
+
+    .main-shot .media-frame{
+      aspect-ratio:16 / 10;
+      min-height:340px;
+    }
+    .cta-box{position:relative;padding:42px;border-radius:32px;border:1px solid rgba(255,255,255,.09);background:radial-gradient(circle at 18% 20%, rgba(83,183,255,.16), transparent 25%),radial-gradient(circle at 85% 10%, rgba(125,124,255,.16), transparent 25%),linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.025));box-shadow:var(--shadow);overflow:hidden;}
+    .cta-box h2{margin:0 0 14px;font-size:40px}.cta-box p{margin:0;color:#cbdcff;line-height:1.9;max-width:780px}
+    .footer{padding:32px 0 48px;color:var(--muted);font-size:14px;}
+    .footer-inner{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.08);padding-top:22px;}
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease, transform .7s ease;}
+    .reveal.show{opacity:1;transform:translateY(0)}
+    @media (max-width: 1280px){
+      .hero-grid{grid-template-columns:1fr}.carousel{height:520px}.grid-4{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .gallery{grid-template-columns:1fr 1fr}.shot.tall{grid-column:1 / -1}.arch{grid-template-columns:1fr;gap:14px}
+      .arch-arrow{height:64px;width:2px;margin:0 auto;background:linear-gradient(180deg, rgba(83,183,255,.15), rgba(49,255,208,.8))}
+      .arch-arrow::after{right:auto;left:50%;top:auto;bottom:-2px;transform:translateX(-50%);border-left:8px solid transparent;border-right:8px solid transparent;border-top:14px solid var(--accent);border-bottom:none;}
+    }
+    @media (max-width: 860px){
+      .nav-links{display:none}.hero{padding-top:42px}.hero-metrics{grid-template-columns:1fr}
+      .grid-3,.grid-4,.gallery{grid-template-columns:1fr}.timeline-item{grid-template-columns:1fr}.carousel{height:500px}
+      .ui-mock, .training-mock, .realtime-mock{position:relative; right:auto; top:auto; width:100%; height:280px; margin-bottom:24px;}
+      .slide{justify-content:flex-start;}.slide h3,.slide p{max-width:none}.carousel-controls{bottom:16px}.cta-box{padding:28px}.cta-box h2{font-size:30px}
+    }
+    @media (max-width: 560px){
+      .container{width:min(var(--max), calc(100% - 24px))}.section{padding:68px 0}.nav{height:70px}.brand-text span{font-size:15px}
+      .hero h1{font-size:34px}.hero .lead{font-size:16px}.btn{padding:12px 18px}.carousel{height:560px}.slide{padding:20px}.screen-placeholder{font-size:14px}
+    }
+
+    #download{
+      scroll-margin-top:110px;
+    }
+
+    .brand-logo{
+      width:78px;
+      height:78px;
+      object-fit:contain;
+      display:block;
+    }
+  </style>
+</head>
+<body>
+  <div class="nav-wrap">
+    <div class="container nav">
+      <a class="brand" href="#top">
+        <img class="brand-logo" src="./pic/logo.png" alt="网站Logo">
+        <div class="brand-text">
+          <span>交通标志识别系统</span>
+          <small>YOLOv8 · 智能识别 · 刘潇隆 · 毕业设计项目官网</small>
+        </div>
+      </a>
+      <div class="nav-links">
+        <a href="#about">项目介绍</a>
+        <a href="#advantages">项目优势</a>
+        <a href="#design">设计理念</a>
+        <a href="#architecture">系统架构</a>
+        <a href="#showcase">成果展示</a>
+      </div>
+      <div class="nav-cta">
+        <a class="btn btn-ghost" href="#showcase">查看界面</a>
+        <a class="btn btn-primary" href="#contact">联系作者</a>
+        <a class="btn btn-ghost" href="#download">下载安装包</a>
+      </div>
+    </div>
+  </div>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="reveal show">
+          <div class="badge">智能视觉识别 · 现代化桌面应用 · 面向真实道路场景</div>
+          <h1>
+            基于 <span class="gradient-text">YOLOv8</span> 的<br>
+            交通标志识别系统
+          </h1>
+          <p class="lead">
+            这是一个面向交通场景智能识别需求而设计的综合性项目，围绕“识别精度、推理速度、界面体验、交互细节”四个方向展开实现。
+            系统支持实时推理与图片推理，结合数据集标注映射优化、训练与预训练实验、UI动效设计和桌面端产品化呈现，形成了一个兼顾技术实现与展示效果的毕业设计作品。
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#about">了解项目</a>
+            <a class="btn btn-ghost" href="#showcase">查看展示</a>
+          </div>
+          <div class="hero-metrics">
+            <div class="metric">
+              <strong>实时推理</strong>
+              <span>支持摄像头画面连续识别，适用于动态道路场景演示与系统测试。</span>
+            </div>
+            <div class="metric">
+              <strong>图片推理</strong>
+              <span>支持对静态图片进行目标检测与结果可视化，便于论文展示和实验对比。</span>
+            </div>
+            <div class="metric">
+              <strong>产品化界面</strong>
+              <span>围绕科技感、现代感和交互动效进行设计，提升软件完成度与答辩展示效果。</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="carousel-shell reveal">
+          <div class="carousel" id="carousel">
+            <div class="slide active">
+              <div class="ui-mock">
+                <div class="mock-dots"><span></span><span></span><span></span></div>
+                <div class="panel-left"></div>
+                <div class="panel-right">
+                  <div class="glow-button"></div>
+                  <div class="mini-card"></div>
+                  <div class="mini-card"></div>
+                  <div class="screen"></div>
+                </div>
+              </div>
+              <div class="slide-content">
+                <div class="slide-tag">界面设计 · 动效优化</div>
+                <h3>现代科技感界面与精细交互动效</h3>
+                <p>在视觉层面突出科技感、光效层次与未来感布局，对右上角关闭按钮展开、旋转、发光反馈等细节进行优化，使系统更接近真正的软件产品。</p>
+              </div>
+            </div>
+
+            <div class="slide">
+              <div class="training-mock">
+                <div class="mock-dots"><span></span><span></span><span></span></div>
+                <div class="legend">
+                  <div>mAP 曲线</div>
+                  <div>Loss 变化</div>
+                  <div>训练对比</div>
+                </div>
+                <div class="graph-area">
+                  <div class="curve">
+                    <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+                      <polyline points="3,85 12,76 22,66 33,58 44,49 55,38 66,30 78,20 90,14 97,10" fill="none" stroke="#65d7ff" stroke-width="2.5" />
+                      <polyline points="3,20 14,28 24,36 35,46 46,56 58,64 70,72 82,79 92,85 97,89" fill="none" stroke="#8c88ff" stroke-width="2.5" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div class="slide-content">
+                <div class="slide-tag">训练优化 · 预训练实验</div>
+                <h3>围绕数据与模型训练开展持续优化</h3>
+                <p>通过数据集整理、标注映射处理、训练参数调整、预训练模型引入与测试验证，不断改进模型在交通标志识别任务中的稳定性与效果表现。</p>
+              </div>
+            </div>
+
+            <div class="slide">
+              <div class="realtime-mock">
+                <div class="mock-dots"><span></span><span></span><span></span></div>
+                <div class="screen">
+                  <div class="road"></div>
+                  <div class="sign-box one"><div class="label">限速标志</div></div>
+                  <div class="sign-box two"><div class="label">警告标志</div></div>
+                </div>
+              </div>
+              <div class="slide-content">
+                <div class="slide-tag">功能实现 · 场景应用</div>
+                <h3>支持实时推理与图片推理双模式使用</h3>
+                <p>系统既能对摄像头视频流进行实时识别，也能对上传图片完成检测与结果展示，软件功能比较完善，应用场景较广。</p>
+              </div>
+            </div>
+
+            <div class="carousel-controls">
+              <div class="dots" id="dots"></div>
+              <div class="arrow-group">
+                <button class="arrow" id="prevBtn" aria-label="上一张">‹</button>
+                <button class="arrow" id="nextBtn" aria-label="下一张">›</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="container">
+        <div class="reveal">
+          <div class="badge">Project Introduction</div>
+          <h2 class="section-title">项目介绍</h2>
+          <p class="section-subtitle">
+            本项目以交通标志识别为核心任务，使用 YOLOv8 目标检测模型完成对道路标志的识别与定位，并通过桌面端应用将模型能力转化为可视化、可交互、可展示的软件系统。
+            项目在技术实现之外，还注重界面设计、交互细节、展示完整性与用户体验，力求将毕业设计作品呈现为具有产品化气质的智能识别软件。
+          </p>
+        </div>
+
+        <div class="grid-3">
+          <div class="card reveal"><div class="card-icon">◎</div><h3>识别任务定位</h3><p>围绕交通标志的检测与识别展开，实现目标框标注、类别识别和结果可视化展示，适用于道路场景实验与项目演示。</p></div>
+          <div class="card reveal"><div class="card-icon">◈</div><h3>桌面端产品呈现</h3><p>结合 Electron + Vue 的界面形态与现代视觉设计思路，将模型识别结果嵌入到统一的软件交互流程中，提升系统完整度。</p></div>
+          <div class="card reveal"><div class="card-icon">✦</div><h3>论文与答辩适配</h3><p>系统具备实时演示、图片推理、界面展示、功能截图与流程说明等多个维度，便于中期答辩、最终答辩与成果展示使用。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="advantages">
+      <div class="container">
+        <div class="reveal">
+          <div class="badge">Project Advantages</div>
+          <h2 class="section-title">项目优势</h2>
+          <p class="section-subtitle">与单纯训练模型的实验性项目不同，本系统在“算法能力 + 功能完整性 + 视觉表现力 + 交互细节”多个维度同步推进，既有技术实现，也有软件产品形态。</p>
+        </div>
+        <div class="grid-4">
+          <div class="card reveal"><div class="card-icon">⚡</div><h3>双模式推理</h3><p>同时支持实时推理与图片推理，可覆盖动态视频流演示与静态样本检测两种常见场景。</p></div>
+          <div class="card reveal"><div class="card-icon">✺</div><h3>数据映射优化</h3><p>对原始数据集标注信息进行映射处理，使模型输出结果更易于理解和展示，增强系统可读性。</p></div>
+          <div class="card reveal"><div class="card-icon">☍</div><h3>训练流程完整</h3><p>包含测试训练、预训练引入、参数调整与结果验证，具有较完整的模型实验流程与优化逻辑。</p></div>
+          <div class="card reveal"><div class="card-icon">✧</div><h3>界面观感突出</h3><p>通过按钮光效、状态反馈、弹性动效、旋转与展开过渡等设计，增强视觉层次与科技感。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="design">
+      <div class="container">
+        <div class="reveal">
+          <div class="badge">Design Concept</div>
+          <h2 class="section-title">设计理念</h2>
+          <p class="section-subtitle">本项目在设计上强调“科技感、秩序感、响应感、产品感”四个关键词。界面布局追求清晰的信息层级，交互动效强调柔和、准确、具有反馈性，整体视觉风格采用偏深色背景、蓝青紫渐变、玻璃质感卡片与发光元素，形成现代智能系统的视觉氛围。</p>
+        </div>
+
+        <div class="timeline">
+          <div class="timeline-item reveal"><div class="timeline-time">视觉表达</div><div class="timeline-content"><h4>以深色科技风为主，强化专业感与未来感</h4><p>通过深色背景承载高亮信息，结合蓝色、青色、紫色的渐变光效，形成稳定、冷静又具有科技感的视觉风格，使界面更符合人工智能项目的展示定位。</p></div></div>
+          <div class="timeline-item reveal"><div class="timeline-time">交互动效</div><div class="timeline-content"><h4>以微动效增强操作反馈，提升界面生命力</h4><p>在右上角关闭按钮、功能按钮和切换区域中引入展开、旋转、发光、悬停、过渡等动画，使交互过程不再生硬，增强软件体验的完整性。</p></div></div>
+          <div class="timeline-item reveal"><div class="timeline-time">信息组织</div><div class="timeline-content"><h4>突出核心功能路径，减少视觉干扰</h4><p>将用户最关注的实时推理、图片推理、识别结果展示等内容放在主要视觉区域，使界面在演示时能够快速传达项目重点。</p></div></div>
+          <div class="timeline-item reveal"><div class="timeline-time">产品化呈现</div><div class="timeline-content"><h4>不仅展示模型，更展示完整的软件作品</h4><p>设计目标不仅是“能识别”，还包括“好展示、好理解、好操作”，因此在视觉规范、交互反馈、布局节奏和页面结构方面都进行了整体化处理。</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="architecture">
+      <div class="container">
+        <div class="reveal">
+          <div class="badge">System Architecture</div>
+          <h2 class="section-title">系统架构</h2>
+          <p class="section-subtitle">系统从数据、模型到应用界面形成了较为完整的实现链路：前端负责界面展示与交互流程，后端负责模型推理与结果返回，模型部分则围绕数据集处理、训练优化和识别效果展开持续迭代。</p>
+        </div>
+
+        <div class="arch">
+          <div class="arch-card reveal"><h3>数据与训练层</h3><ul><li>交通标志数据集整理</li><li>类别标注与映射处理</li><li>测试训练与预训练实验</li><li>参数调整与结果验证</li></ul></div>
+          <div class="arch-arrow"></div>
+          <div class="arch-card reveal"><h3>识别与推理层</h3><ul><li>YOLOv8 模型加载与推理</li><li>图片推理与实时推理双支持</li><li>识别结果解析与类别映射</li><li>检测框与文本结果展示</li></ul></div>
+          <div class="arch-arrow"></div>
+          <div class="arch-card reveal"><h3>界面与展示层</h3><ul><li>桌面端视觉界面设计</li><li>按钮动效与光效反馈</li><li>模块化信息展示布局</li><li>答辩与项目演示友好呈现</li></ul></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="showcase">
+      <div class="container">
+        <div class="reveal">
+          <div class="badge">Showcase</div>
+          <h2 class="section-title">项目成果展示</h2>
+          <p class="section-subtitle">下方区域仅对程序进行部分展示，更多功能请下载程序安装包，自行体验。</p>
+        </div>
+
+        <div class="gallery">
+          <div class="shot reveal main-shot">
+            <div class="shot-mark">程序主界面</div>
+            <h4>系统主界面 / 项目总览图</h4>
+            <p>整体暗黑风格，操作按钮明显，功能简单易懂。</p>
+            <div class="media-frame">
+              <img src="./pic/01main.png" alt="系统主界面 / 项目总览图">
+            </div>
+          </div>
+        
+          <div class="shot reveal">
+            <div class="shot-mark">实时推理界面</div>
+            <h4>实时推理界面</h4>
+            <p>支持实时推理与图片推理双模式使用，显卡占用率低，推理流畅，推理几乎无延迟。</p>
+            <div class="media-frame">
+              <img src="./pic/02shishituili.png" alt="实时推理界面">
+            </div>
+          </div>
+        
+          <div class="shot reveal">
+            <div class="shot-mark">图片推理界面</div>
+            <h4>图片推理结果</h4>
+            <p>同时支持实时推理与图片推理，可覆盖动态视频流演示与静态样本检测两种常见场景。</p>
+            <div class="media-frame">
+              <img src="./pic/03tupiantuili.png" alt="图片推理结果">
+            </div>
+          </div>
+        
+          <div class="shot reveal">
+            <div class="shot-mark">训练曲线图</div>
+            <h4>训练曲线 / 实验图表</h4>
+            <p>采用数万张高清真实街景图训练，更符合中国真实街道场景，模型准确率高。</p>
+            <div class="media-frame">
+              <img src="./pic/04xunlianquxian.png" alt="训练曲线 / 实验图表">
+            </div>
+          </div>
+        
+          <div class="shot reveal gif-shot">
+            <div class="shot-mark">动态效果图</div>
+            <h4>按钮动效细节图</h4>
+            <p>制作了大量的按钮交互效果、鼠标触碰按钮会产生辉光效果和轻微上浮效果。</p>
+            <div class="media-frame">
+              <img src="./pic/05dongxiao.gif" alt="按钮动效细节图">
+            </div>
+          </div>
+        
+          <div class="shot reveal">
+            <div class="shot-mark">原始数据映射图</div>
+            <h4>数据映射 / 标签优化图</h4>
+            <p>对数据集原始输出数据进行了中文映射处理，更便于人阅读，可直接看到程序标注的中文结果。</p>
+            <div class="media-frame">
+              <img src="./pic/06yingshe.png" alt="数据映射 / 标签优化图">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="cta-box reveal">
+          <div class="badge">Official Project Website</div>
+          <h2>本项目开发完成后将会完整开源</h2>
+          <p>技术无国界。本项目开发完毕后将会开源在 @野裘科技 的官方github仓库中，如有需要，可自行前往下载学习交流。</p>
+          <div class="hero-actions" style="margin-top:24px">
+            <a class="btn btn-primary" href="#top">返回顶部</a>
+            <a class="btn btn-ghost" href="mailto:lxl@yetrotech.com">联系邮箱</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="download">
+      <div class="container">
+        <div class="cta-box reveal">
+          <div class="badge">Download</div>
+          <h2>下载安装包</h2>
+          <p>
+            你可以通过下方按钮下载本项目的安装包，下载安装到本地后即可体验交通标志识别系统的主要功能，
+            包括图片推理、实时推理、界面交互效果与识别结果展示等内容。
+          </p>
+          <div class="hero-actions" style="margin-top:24px">
+            <a class="btn btn-primary" href="https://pan.quark.cn/s/eb28d49b1ae3" target="_blank" rel="noopener noreferrer">
+              下载安装包
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>© 2026 基于 YOLOv8 的交通标志识别系统 · 官方网站  Design by 刘潇隆</div>
+      <div>刘潇隆开发设计</div>
+    </div>
+  </footer>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const dotsWrap = document.getElementById('dots');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    let current = 0;
+    let timer = null;
+
+    slides.forEach((_, i) => {
+      const dot = document.createElement('button');
+      dot.className = 'dot' + (i === 0 ? ' active' : '');
+      dot.setAttribute('aria-label', '切换到第' + (i + 1) + '张');
+      dot.addEventListener('click', () => goTo(i));
+      dotsWrap.appendChild(dot);
+    });
+
+    const dots = () => document.querySelectorAll('.dot');
+
+    function renderSlides(){
+      slides.forEach((slide, i) => slide.classList.toggle('active', i === current));
+      dots().forEach((dot, i) => dot.classList.toggle('active', i === current));
+    }
+
+    function goTo(index){
+      current = (index + slides.length) % slides.length;
+      renderSlides();
+      resetAuto();
+    }
+    function next(){ goTo(current + 1); }
+    function prev(){ goTo(current - 1); }
+    nextBtn.addEventListener('click', next);
+    prevBtn.addEventListener('click', prev);
+
+    function autoPlay(){ timer = setInterval(next, 4200); }
+    function resetAuto(){ clearInterval(timer); autoPlay(); }
+    autoPlay();
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if(entry.isIntersecting){ entry.target.classList.add('show'); } });
+    }, { threshold: 0.14 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

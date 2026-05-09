@@ -1,0 +1,12 @@
+启动方法：
+需要打开两个不同的powershell
+1. 启动后端
+cd D:\traffic_sign_project
+.venv\Scripts\activate
+uvicorn backend.app:app --host 127.0.0.1 --port 8001
+2. 启动前端
+cd D:\traffic_sign_project\frontend
+npm run dev
+3.启动electron端
+cd D:\traffic_sign_project\desktop
+npm start

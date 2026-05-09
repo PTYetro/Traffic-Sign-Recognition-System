@@ -1,0 +1,46 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+
+# Runtime files
+backend_runtime/
+
+# Node / frontend / Electron
+node_modules/
+frontend/node_modules/
+frontend/dist/
+desktop/node_modules/
+desktop/dist/
+desktop/renderer-dist/
+desktop/backend_dist/
+
+# Build outputs
+build/
+dist/
+*.spec~
+
+# Datasets and raw source data
+datasets/
+raw/
+
+# Training and inference outputs.
+# Keep only the final trained best weight needed by the app.
+*.pt
+runs/**
+!runs/tt100k_yolov8s_stage2_1280/
+!runs/tt100k_yolov8s_stage2_1280/weights/
+!runs/tt100k_yolov8s_stage2_1280/weights/best.pt
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/

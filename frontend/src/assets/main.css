@@ -1,0 +1,1099 @@
+:root {
+  font-family:
+    Inter, "PingFang SC", "Microsoft YaHei", system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #eaf1ff;
+  background:
+    radial-gradient(circle at top left, #1e2b5d 0%, #0f172a 35%, #090f1d 100%);
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --card-bg: rgba(13, 20, 38, 0.82);
+  --card-border: rgba(255, 255, 255, 0.08);
+  --text-main: #eef4ff;
+  --text-soft: #9fb1d1;
+  --primary: #5b8cff;
+  --primary-hover: #7aa0ff;
+  --success: #3dd9a3;
+  --danger: #ff6b7a;
+  --shadow: 0 14px 40px rgba(0, 0, 0, 0.28);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  min-width: 1200px;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.page {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.hero-card,
+.panel {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(10px);
+}
+
+.hero-card {
+  display: grid;
+  grid-template-columns: 1.6fr 0.8fr;
+  gap: 20px;
+  padding: 28px;
+  margin-bottom: 24px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(91, 140, 255, 0.15);
+  color: #c8d9ff;
+  font-size: 13px;
+  margin-bottom: 14px;
+}
+
+.hero-left h1 {
+  margin: 0;
+  font-size: 40px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.subtitle {
+  margin-top: 14px;
+  color: var(--text-soft);
+  font-size: 16px;
+}
+
+.hero-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.mode-card {
+  width: 100%;
+  max-width: 260px;
+  padding: 22px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mode-title {
+  color: var(--text-soft);
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.mode-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--success);
+}
+
+.main-grid {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.panel {
+  padding: 24px;
+}
+
+.panel h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 22px;
+}
+
+.upload-box {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.upload-button {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 18px;
+  background: linear-gradient(135deg, var(--primary), #7b61ff);
+  color: white;
+  border-radius: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.upload-button:hover {
+  transform: translateY(-1px);
+  background: linear-gradient(135deg, var(--primary-hover), #8b73ff);
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.file-name {
+  color: var(--text-soft);
+  font-size: 14px;
+  word-break: break-all;
+}
+
+.form-grid {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.form-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-item label {
+  color: var(--text-soft);
+  font-size: 14px;
+}
+
+.form-item input {
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-main);
+  padding: 0 14px;
+  outline: none;
+}
+
+.form-item input:focus {
+  border-color: rgba(91, 140, 255, 0.6);
+}
+
+.infer-button {
+  width: 100%;
+  height: 48px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #1fd1a5, #2575fc);
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.infer-button:hover {
+  transform: translateY(-1px);
+}
+
+.infer-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.error-text {
+  margin-top: 14px;
+  color: var(--danger);
+  font-size: 14px;
+}
+
+.stats-box {
+  margin-top: 22px;
+  padding: 16px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.stats-title {
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.stats-item {
+  color: var(--text-soft);
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+.preview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.preview-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.preview-title {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.image-frame {
+  min-height: 420px;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px dashed rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.03);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #0c1222;
+}
+
+.placeholder {
+  color: var(--text-soft);
+  font-size: 15px;
+}
+
+.result-panel {
+  margin-bottom: 24px;
+}
+
+.result-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.result-count {
+  color: var(--text-soft);
+  font-size: 14px;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 900px;
+}
+
+thead tr {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+th,
+td {
+  text-align: left;
+  padding: 14px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 14px;
+}
+
+th {
+  color: #dbe7ff;
+  font-weight: 700;
+}
+
+td {
+  color: var(--text-soft);
+}
+
+.empty-state {
+  min-height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-soft);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.mode-switch {
+  display: flex;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.mode-tab {
+  min-width: 120px;
+  height: 42px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-main);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.mode-tab:hover {
+  transform: translateY(-1px);
+}
+
+.mode-tab.active {
+  background: linear-gradient(135deg, var(--primary), #7b61ff);
+  border-color: transparent;
+  color: white;
+  font-weight: 700;
+}
+
+.button-group {
+  display: grid;
+  gap: 12px;
+}
+
+.stop-button {
+  width: 100%;
+  height: 46px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #ff6b7a, #ff9259);
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.stop-button:hover {
+  transform: translateY(-1px);
+}
+
+.realtime-grid {
+  grid-template-columns: 380px 1fr;
+}
+
+.live-frame {
+  position: relative;
+}
+
+.live-frame video,
+.live-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #0c1222;
+}
+
+.hidden-canvas {
+  display: none;
+}
+
+body.desktop-shell {
+  overflow: hidden;
+}
+
+body.desktop-shell #app {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.desktop-shell .app-shell {
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+.desktop-shell .page {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  padding: 10px 14px 14px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.desktop-shell .page.page-with-chrome {
+  padding-top: 54px;
+}
+
+.desktop-shell .page.page-image {
+  grid-template-rows: auto minmax(0, 1.12fr) minmax(180px, 0.72fr);
+}
+
+.desktop-shell .page.page-realtime {
+  grid-template-rows: auto minmax(0, 1.42fr) minmax(150px, 0.52fr);
+}
+
+.desktop-shell .hero-card,
+.desktop-shell .main-grid,
+.desktop-shell .result-panel {
+  min-height: 0;
+}
+
+.desktop-shell .hero-card {
+  display: block;
+  padding: 14px 20px;
+  border-radius: 22px;
+  min-height: auto;
+}
+
+.desktop-shell .hero-left {
+  max-width: 100%;
+}
+
+.desktop-shell .hero-left h1 {
+  font-size: clamp(36px, 3.8vw, 54px);
+  line-height: 1.05;
+  margin: 2px 0 8px;
+}
+
+.desktop-shell .subtitle {
+  margin: 0 0 14px;
+  line-height: 1.5;
+  font-size: 16px;
+}
+
+.desktop-shell .mode-switch {
+  gap: 10px;
+}
+
+.desktop-shell .mode-tab {
+  min-width: 116px;
+  height: 42px;
+}
+
+.desktop-shell .hero-right,
+.desktop-shell .badge,
+.desktop-shell .mode-card {
+  display: none !important;
+}
+
+.desktop-shell .main-grid,
+.desktop-shell .main-grid.realtime-grid {
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 12px;
+  align-items: stretch;
+  min-height: 0;
+}
+
+.desktop-shell .panel {
+  padding: 14px 16px;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: 22px;
+}
+
+.desktop-shell .panel h2 {
+  margin-bottom: 14px;
+  font-size: 20px;
+}
+
+.desktop-shell .left-panel {
+  overflow: auto;
+}
+
+.desktop-shell .form-grid {
+  gap: 10px;
+}
+
+.desktop-shell .form-item label {
+  margin-bottom: 7px;
+  line-height: 1.45;
+  font-size: 14px;
+}
+
+.desktop-shell .form-item input {
+  height: 42px;
+}
+
+.desktop-shell .upload-box {
+  margin-bottom: 14px;
+}
+
+.desktop-shell .upload-button {
+  height: 46px;
+  min-width: 118px;
+}
+
+.desktop-shell .infer-button,
+.desktop-shell .stop-button {
+  height: 44px;
+  font-size: 16px;
+}
+
+.desktop-shell .button-group {
+  gap: 10px;
+}
+
+.desktop-shell .stats-box {
+  margin-top: 12px;
+  padding: 12px 14px;
+}
+
+.desktop-shell .stats-title {
+  margin-bottom: 8px;
+}
+
+.desktop-shell .stats-item {
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+.desktop-shell .preview-panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.desktop-shell .preview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  min-height: 0;
+  height: 100%;
+}
+
+.desktop-shell .preview-card {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.desktop-shell .preview-title {
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.desktop-shell .image-frame {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: 18px;
+}
+
+.desktop-shell .page.page-image .image-frame {
+  min-height: 240px;
+  max-height: 320px;
+}
+
+.desktop-shell .page.page-realtime .image-frame {
+  min-height: 360px;
+  max-height: none;
+}
+
+.desktop-shell .page.page-realtime .preview-panel {
+  min-height: 0;
+}
+
+.desktop-shell .page.page-realtime .preview-grid {
+  min-height: 0;
+}
+
+.desktop-shell .image-frame img,
+.desktop-shell .image-frame video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.desktop-shell .result-panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.desktop-shell .result-header {
+  flex: 0 0 auto;
+  margin-bottom: 10px;
+}
+
+.desktop-shell .result-count {
+  font-size: 14px;
+}
+
+.desktop-shell .table-wrap {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+
+.desktop-shell .empty-state {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.desktop-shell table th,
+.desktop-shell table td {
+  padding: 10px 12px;
+  font-size: 13px;
+}
+
+.desktop-shell .window-chrome {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 54px;
+  z-index: 70;
+  pointer-events: none;
+}
+
+.desktop-shell .window-drag-region {
+  position: absolute;
+  inset: 0;
+  -webkit-app-region: drag;
+}
+
+.desktop-shell .shell-hover-zone {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 56px;
+  pointer-events: auto;
+  -webkit-app-region: no-drag;
+  z-index: 85;
+}
+
+.desktop-shell .shell-stack {
+  width: 56px;
+  height: 56px;
+  overflow: hidden;
+  border-radius: 28px;
+  background: rgba(247, 248, 252, 0.98);
+  border: 1px solid rgba(196, 203, 222, 0.72);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(14px);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 0;
+  position: relative;
+  z-index: 80;
+  transform-origin: top center;
+  transform: scale(1);
+  transition:
+    height 1.10s cubic-bezier(0.22, 1, 0.36, 1),
+    border-radius 1.10s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 1.10s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1.10s cubic-bezier(0.22, 1, 0.36, 1),
+    background 0.28s ease;
+}
+
+.desktop-shell .shell-stack.expanded {
+  height: 224px;
+  border-radius: 28px;
+  box-shadow: 0 22px 40px rgba(0, 0, 0, 0.24);
+  overflow: visible;
+  transform: scale(1.035);
+}
+
+.desktop-shell .shell-stack-btn {
+  width: 56px;
+  height: 56px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  color: #2f384d;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  position: relative;
+  flex: 0 0 56px;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.desktop-shell .shell-stack-btn + .shell-stack-btn {
+  border-top: 1px solid rgba(180, 188, 210, 0.38);
+}
+
+.desktop-shell .shell-stack-btn:hover {
+  background: rgba(151, 170, 220, 0.14);
+}
+
+.desktop-shell .shell-stack-btn:active {
+  transform: scale(0.96);
+}
+
+.desktop-shell .shell-close-btn:hover {
+  background: rgba(255, 95, 108, 0.14);
+  color: #d64557;
+}
+
+.desktop-shell .shell-stack-btn::after {
+  content: attr(data-tip);
+  position: absolute;
+  right: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%) translateX(8px);
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: rgba(221, 200, 255, 0.96);
+  color: #46315d;
+  font-size: 12px;
+  white-space: nowrap;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.desktop-shell .shell-stack-btn:hover::after {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+.desktop-shell .shell-icon {
+  width: 24px;
+  height: 24px;
+  display: block;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex: none;
+  pointer-events: none;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    transform 1.10s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.2s ease;
+}
+
+.desktop-shell .shell-icon-close {
+  width: 25px;
+  height: 25px;
+  stroke-width: 2.9;
+}
+
+.desktop-shell .shell-icon-close.rotated {
+  transform: rotate(180deg);
+}
+
+
+.desktop-shell .boot-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  background: rgba(7, 10, 18, 0.22);
+  backdrop-filter: blur(12px);
+}
+
+.desktop-shell .boot-card {
+  width: min(100%, 1040px);
+  min-height: calc(100vh - 44px);
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(236, 239, 248, 0.82);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 36px 20px;
+  position: relative;
+}
+
+.desktop-shell .boot-card::before {
+  content: '';
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  bottom: 14px;
+  left: 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  pointer-events: none;
+}
+
+.desktop-shell .boot-center {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.desktop-shell .boot-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.desktop-shell .boot-inline-text {
+  font-size: 22px;
+  font-weight: 700;
+  color: #121728;
+}
+
+.desktop-shell .boot-spinner {
+  width: 30px;
+  height: 30px;
+  border: 3px solid rgba(60, 72, 108, 0.18);
+  border-top-color: #566ff7;
+  border-radius: 50%;
+  animation: boot-spin 0.9s linear infinite;
+}
+
+@keyframes boot-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.desktop-shell .boot-error-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: #121728;
+}
+
+.desktop-shell .boot-error-text {
+  margin-top: 12px;
+  color: #56617d;
+  font-size: 15px;
+}
+
+.desktop-shell .boot-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.desktop-shell .boot-retry-btn,
+.desktop-shell .boot-close-btn {
+  min-width: 120px;
+  height: 42px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.18s ease;
+}
+
+.desktop-shell .boot-retry-btn {
+  background: linear-gradient(135deg, #5b8cff, #7b61ff);
+  color: white;
+}
+
+.desktop-shell .boot-close-btn {
+  background: linear-gradient(135deg, #ff6b7a, #ff9259);
+  color: white;
+}
+
+.desktop-shell .boot-retry-btn:hover,
+.desktop-shell .boot-close-btn:hover {
+  transform: translateY(-1px);
+}
+
+@media (max-height: 920px) {
+  .desktop-shell .page.page-realtime {
+    grid-template-rows: auto minmax(0, 1.28fr) minmax(140px, 0.48fr);
+  }
+
+  .desktop-shell .page.page-image {
+    grid-template-rows: auto minmax(0, 1.02fr) minmax(160px, 0.68fr);
+  }
+
+  .desktop-shell .hero-card {
+    padding: 12px 18px;
+  }
+
+  .desktop-shell .hero-left h1 {
+    font-size: clamp(32px, 3.4vw, 46px);
+  }
+
+  .desktop-shell .page.page-realtime .image-frame {
+    min-height: 300px;
+  }
+}
+
+/* ===== 全局按钮优雅悬浮效果 ===== */
+
+.desktop-shell .mode-tab,
+.desktop-shell .upload-button,
+.desktop-shell .infer-button,
+.desktop-shell .stop-button,
+.desktop-shell .boot-retry-btn,
+.desktop-shell .boot-close-btn,
+.desktop-shell .shell-stack-btn {
+  position: relative;
+  overflow: visible;
+  will-change: transform, box-shadow, filter;
+  transform: translateY(0) scale(1);
+  transition:
+    transform 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.28s ease,
+    background 0.28s ease,
+    color 0.28s ease;
+}
+
+/* 鼠标移上去：轻微上浮 + 轻微放大 */
+.desktop-shell .mode-tab:hover,
+.desktop-shell .upload-button:hover,
+.desktop-shell .infer-button:hover,
+.desktop-shell .stop-button:hover,
+.desktop-shell .boot-retry-btn:hover,
+.desktop-shell .boot-close-btn:hover,
+.desktop-shell .shell-stack-btn:hover {
+  transform: translateY(-3px) scale(1.035);
+  filter: brightness(1.03);
+}
+
+/* 按下时：轻微回弹 */
+.desktop-shell .mode-tab:active,
+.desktop-shell .upload-button:active,
+.desktop-shell .infer-button:active,
+.desktop-shell .stop-button:active,
+.desktop-shell .boot-retry-btn:active,
+.desktop-shell .boot-close-btn:active,
+.desktop-shell .shell-stack-btn:active {
+  transform: translateY(-1px) scale(0.985);
+  transition-duration: 0.12s;
+}
+
+/* ===== 各类按钮的专属辉光 ===== */
+
+/* 顶部模式切换按钮 */
+.desktop-shell .mode-tab:hover {
+  box-shadow:
+    0 12px 28px rgba(67, 92, 255, 0.22),
+    0 0 120px rgba(123, 97, 255, 0.80);
+}
+
+/* 当前激活的模式按钮再更亮一点 */
+.desktop-shell .mode-tab.active:hover {
+  box-shadow:
+    0 14px 32px rgba(88, 110, 255, 0.28),
+    0 0 120px rgba(123, 97, 255, 0.80);
+}
+
+/* 选择图片按钮 */
+.desktop-shell .upload-button:hover {
+  box-shadow:
+    0 12px 28px rgba(104, 104, 255, 0.24),
+    0 0 120px rgba(126, 113, 255, 0.80);
+}
+
+/* 开始推理按钮 */
+.desktop-shell .infer-button:hover {
+  box-shadow:
+    0 14px 32px rgba(36, 175, 255, 0.24),
+    0 0 120px rgba(43, 214, 201, 0.80);
+}
+
+/* 停止按钮 */
+.desktop-shell .stop-button:hover {
+  box-shadow:
+    0 14px 32px rgba(255, 120, 82, 0.24),
+    0 0 120px rgba(255, 98, 98, 0.80);
+}
+
+/* 启动页按钮 */
+.desktop-shell .boot-retry-btn:hover {
+  box-shadow:
+    0 14px 32px rgba(96, 118, 255, 0.25),
+    0 0 120px rgba(123, 97, 255, 0.80);
+}
+
+.desktop-shell .boot-close-btn:hover {
+  box-shadow:
+    0 14px 32px rgba(255, 118, 118, 0.24),
+    0 0 120px rgba(255, 147, 92, 0.80);
+}
+
+/* 右上角控制按钮 */
+.desktop-shell .shell-stack-btn:hover {
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.15),
+    0 8px 20px rgba(95, 110, 170, 0.12),
+    0 0 120px rgba(130, 150, 220, 0.80);
+}
+
+.desktop-shell .shell-close-btn:hover {
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.10),
+    0 8px 20px rgba(214, 69, 87, 0.16),
+    0 0 120px rgba(255, 111, 126, 0.80);
+}
+
+/* ===== 让按钮内部文字/图标也稍微丝滑一点 ===== */
+
+.desktop-shell .mode-tab,
+.desktop-shell .upload-button,
+.desktop-shell .infer-button,
+.desktop-shell .stop-button,
+.desktop-shell .boot-retry-btn,
+.desktop-shell .boot-close-btn {
+  text-shadow: 0 0 0 rgba(255, 255, 255, 0);
+}
+
+.desktop-shell .mode-tab:hover,
+.desktop-shell .upload-button:hover,
+.desktop-shell .infer-button:hover,
+.desktop-shell .stop-button:hover,
+.desktop-shell .boot-retry-btn:hover,
+.desktop-shell .boot-close-btn:hover {
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.08);
+}
+
+/* ===== 让右上角整个展开控件也更优雅一点 ===== */
+
+.desktop-shell .shell-stack {
+  transition:
+    height 1.10s cubic-bezier(0.22, 1, 0.36, 1),
+    border-radius 1.10s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 1.10s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1.10s cubic-bezier(0.22, 1, 0.36, 1),
+    background 0.42s ease;
+}
+
+.desktop-shell .shell-stack.expanded {
+  transform: scale(1.045);
+}
+
+.desktop-shell .shell-icon {
+  transition:
+    transform 1.10s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.24s ease;
+}

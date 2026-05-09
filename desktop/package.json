@@ -1,0 +1,61 @@
+{
+  "name": "traffic-sign-desktop",
+  "version": "1.0.0",
+  "description": "Traffic Sign Detection Desktop App",
+  "main": "main.js",
+  "productName": "交通标志识别系统",
+  "scripts": {
+    "start": "electron .",
+    "build:renderer": "cd ..\\frontend && npm run build && powershell -Command \"if (Test-Path '..\\desktop\\renderer-dist') { Remove-Item '..\\desktop\\renderer-dist' -Recurse -Force }; Copy-Item 'dist' '..\\desktop\\renderer-dist' -Recurse\"",
+    "pack": "npm run build:renderer && electron-builder --dir",
+    "dist": "npm run build:renderer && electron-builder --win nsis"
+  },
+  "devDependencies": {
+    "electron": "^41.2.1",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.traffic.sign.desktop",
+    "productName": "交通标志识别系统",
+    "directories": {
+      "output": "dist",
+      "buildResources": "assets"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "assets/**/*",
+      "renderer-dist/**/*"
+    ],
+    "extraResources": [
+  {
+    "from": "backend_dist/backend",
+    "to": "backend",
+    "filter": [
+      "**/*"
+    ]
+  }
+    ],
+    "asar": true,
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "assets/icon.ico",
+      "artifactName": "交通标志识别系统-Setup-${version}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "perMachine": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "交通标志识别系统"
+    }
+  }
+}
